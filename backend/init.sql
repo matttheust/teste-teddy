@@ -1,0 +1,1 @@
+CREATE DATABASE teddy_db;
