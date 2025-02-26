@@ -1,25 +1,102 @@
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-  }
-  
-  .header-left,
-  .header-center,
-  .header-right {
-    display: flex;
-    align-items: center;
-  }
-  
-  .header-center {
-    flex-grow: 1;
-    justify-content: center;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  height: 80px;
+  background-color: white; /* Cor de fundo clara */
+  color: #333; /* Cor do texto escura */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+/* Menu Hamburguer */
+.menu-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  margin-left: 0; /* Posiciona o ícone no canto mais à esquerda */
+}
+
+.menu-icon {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: #333; /* Cor escura para o ícone */
+  position: relative;
+}
+
+.menu-icon::before,
+.menu-icon::after {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: #333; /* Cor escura para o ícone */
+  position: absolute;
+}
+
+.menu-icon::before {
+  transform: translateY(-6px);
+}
+
+.menu-icon::after {
+  transform: translateY(6px);
+}
+
+/* Logo */
+.logo {
+  margin-left: 16px; /* Espaçamento entre o menu hamburguer e o logo */
+}
+
+/* Seção Central – Navegação */
+.header-center {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li {
+  cursor: pointer;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.nav-links li:hover {
+  color: #ffa500; /* Cor laranja no hover */
+}
+
+.nav-links .active {
+  color: #ffa500; /* Cor laranja para o link ativo */
+  font-weight: bold;
+}
+
+/* Seção Direita – Saudação do Usuário */
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.user-greeting {
+  font-size: 16px;
+  color: #333; /* Cor escura para o texto */
+}
+
+.user-greeting strong {
+  font-weight: bold;
+}
