@@ -7,12 +7,14 @@ import Dropdown from '../components/Dropdown/Dropdown';
 import ClienteCard from '../components/ClientCard/ClientCard';
 import Pagination from '../components/Pagination/Pagination';
 import Button from '../components/Button/Button';
-import './ClientesList.css';
+import { useClienteContext } from '../components/Context/ClienteContext';
+import styles from './ClientesList.module.css'; // Usando módulo CSS
 
 const ClientesList: React.FC = () => {
   const [clientes, setClientes] = useState<Cliente[]>([]);
-  const [clientesPorPagina, setClientesPorPagina] = useState(16); // 4 cards por linha x 4 linhas
+  const [clientesPorPagina, setClientesPorPagina] = useState(16);
   const [paginaAtual, setPaginaAtual] = useState(1);
+  const { clientesSelecionados, setClientesSelecionados } = useClienteContext();
 
   useEffect(() => {
     const fetchClientes = async () => {
@@ -26,41 +28,47 @@ const ClientesList: React.FC = () => {
     fetchClientes();
   }, []);
 
+  const handleDelete = (id: number) => {
+    console.log(`Delete cliente with id: ${id}`);
+  };
+
+  const handleSelectCliente = (cliente: Cliente) => {
+    setClientesSelecionados((prevSelecionados: Cliente[]) => {
+      const isAlreadySelected = prevSelecionados.some((c) => c.id === cliente.id);
+      if (isAlreadySelected) {
+        return prevSelecionados.filter((c) => c.id !== cliente.id);
+      } else {
+        return [...prevSelecionados, cliente];
+      }
+    });
+  };
+
   const handleAdd = (id: number) => {
-    console.log('Adicionar cliente:', id);
+    console.log(`Add cliente with id: ${id}`);
   };
 
   const handleEdit = (id: number) => {
-    console.log('Editar cliente:', id);
+    console.log(`Edit cliente with id: ${id}`);
   };
 
-  const handleDelete = (id: number) => {
-    console.log('Excluir cliente:', id);
-  };
-
-  const handlePageChange = (page: number) => {
-    setPaginaAtual(page);
-  };
-
-  // Calcula os clientes a serem exibidos na página atual
   const indexOfLastCliente = paginaAtual * clientesPorPagina;
   const indexOfFirstCliente = indexOfLastCliente - clientesPorPagina;
   const currentClientes = clientes.slice(indexOfFirstCliente, indexOfLastCliente);
 
   return (
-    <div className="clientes-container">
+    <div className={styles.clientesContainer}>
       <Header />
-      <div className="clientes-content">
+      <div className={styles.clientesContent}>
         <SectionHeader title={`${clientes.length} clientes encontrados`} />
         <Dropdown
-          options={[4, 8, 12, 16]} // Opções para "Clientes por página"
+          options={[4, 8, 12, 16]}
           selected={clientesPorPagina}
           onChange={(value) => {
             setClientesPorPagina(value);
-            setPaginaAtual(1); // Volta para a primeira página ao mudar o número de clientes por página
+            setPaginaAtual(1);
           }}
         />
-        <div className="clientes-grid">
+        <div className={styles.clientesGrid}>
           {currentClientes.map((cliente) => (
             <ClienteCard
               key={cliente.id}
@@ -70,13 +78,15 @@ const ClientesList: React.FC = () => {
               onAdd={() => cliente.id !== undefined && handleAdd(cliente.id)}
               onEdit={() => cliente.id !== undefined && handleEdit(cliente.id)}
               onDelete={() => cliente.id !== undefined && handleDelete(cliente.id)}
+              onSelect={() => handleSelectCliente(cliente)}
+              isSelected={clientesSelecionados.some((c) => c.id === cliente.id)}
             />
           ))}
         </div>
         <Pagination
           currentPage={paginaAtual}
           totalPages={Math.ceil(clientes.length / clientesPorPagina)}
-          onPageChange={handlePageChange}
+          onPageChange={(page) => setPaginaAtual(page)}
         />
         <Button onClick={() => console.log('Criar Cliente')}>Criar Cliente</Button>
       </div>

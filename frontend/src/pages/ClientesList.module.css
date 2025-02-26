@@ -1,0 +1,16 @@
+.clientesContainer {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .clientesContent {
+    margin-top: 80px; /* Espaço para o header fixo */
+  }
+  
+  .clientesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Cards responsivos */
+    gap: 40px; /* Espaçamento entre os cards */
+    margin-top: 20px;
+  }

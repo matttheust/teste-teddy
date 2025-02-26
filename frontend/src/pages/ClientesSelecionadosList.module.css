@@ -1,0 +1,39 @@
+.clientesSelecionadosContainer {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .clientesContent {
+    margin-top: 80px; /* Espaço para o header fixo */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza horizontalmente */
+  }
+  
+  .clientesSelecionadosContainer h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .clientesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); /* Cards com largura de 240px */
+    gap: 20px; /* Espaçamento entre os cards */
+    margin-top: 20px;
+    width: 100%; /* Ocupa toda a largura disponível */
+  }
+  
+  .clientesGrid p {
+    font-size: 16px;
+    color: #666;
+  }
+  
+  /* Container do botão centralizado */
+  .buttonContainer {
+    margin-top: 20px;
+    text-align: center; /* Centraliza o texto dentro do container */
+    width: 100%; /* Ocupa toda a largura disponível */
+  }

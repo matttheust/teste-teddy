@@ -1,30 +1,28 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Logo from '../Logo/Logo';
-import './Header.css';
+import styles from './Header.module.css';
 
 const Header: React.FC = () => {
   return (
-    <header className="header">
-      {/* Menu Hamburguer */}
-      <button className="menu-button">
-        <span className="menu-icon"></span>
+    <header className={styles.header}>
+      <button className={styles.menuButton}>
+        <span className={styles.menuIcon}></span>
       </button>
-
-      {/* Logo */}
       <Logo />
-
-      {/* Seção Central – Navegação */}
-      <nav className="header-center">
-        <ul className="nav-links">
-          <li className="active">Clientes</li>
-          <li>Clientes selecionados</li>
+      <nav className={styles.headerCenter}>
+        <ul className={styles.navLinks}>
+          <li className={styles.active}>
+            <Link to="/clientes">Clientes</Link>
+          </li>
+          <li>
+            <Link to="/clientes-selecionados">Clientes selecionados</Link>
+          </li>
           <li>Sair</li>
         </ul>
       </nav>
-
-      {/* Seção Direita – Saudação do Usuário */}
-      <div className="header-right">
-        <span className="user-greeting">Olá, <strong>Usuário</strong>!</span>
+      <div className={styles.headerRight}>
+        <span className={styles.userGreeting}>Olá, <strong>Usuário</strong>!</span>
       </div>
     </header>
   );

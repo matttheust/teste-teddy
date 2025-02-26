@@ -1,0 +1,14 @@
+.button {
+    background-color: #007bff; /* Cor azul */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button:hover {
+    background-color: #0056b3; /* Cor azul mais escura no hover */
+  }

@@ -4,8 +4,8 @@
   align-items: center;
   padding: 0 20px;
   height: 80px;
-  background-color: white; /* Cor de fundo clara */
-  color: #333; /* Cor do texto escura */
+  background-color: white;
+  color: #333;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: fixed;
   top: 0;
@@ -14,56 +14,49 @@
   z-index: 1000;
 }
 
-/* Menu Hamburguer */
-.menu-button {
+.menuButton {
   background: none;
   border: none;
   cursor: pointer;
   padding: 8px;
   display: flex;
   align-items: center;
-  margin-left: 0; /* Posiciona o ícone no canto mais à esquerda */
+  margin-left: 0;
 }
 
-.menu-icon {
+.menuIcon {
   display: block;
   width: 24px;
   height: 2px;
-  background-color: #333; /* Cor escura para o ícone */
+  background-color: #333;
   position: relative;
 }
 
-.menu-icon::before,
-.menu-icon::after {
+.menuIcon::before,
+.menuIcon::after {
   content: '';
   display: block;
   width: 24px;
   height: 2px;
-  background-color: #333; /* Cor escura para o ícone */
+  background-color: #333;
   position: absolute;
 }
 
-.menu-icon::before {
+.menuIcon::before {
   transform: translateY(-6px);
 }
 
-.menu-icon::after {
+.menuIcon::after {
   transform: translateY(6px);
 }
 
-/* Logo */
-.logo {
-  margin-left: 16px; /* Espaçamento entre o menu hamburguer e o logo */
-}
-
-/* Seção Central – Navegação */
-.header-center {
+.headerCenter {
   display: flex;
   justify-content: center;
   flex-grow: 1;
 }
 
-.nav-links {
+.navLinks {
   list-style: none;
   display: flex;
   gap: 32px;
@@ -71,32 +64,31 @@
   padding: 0;
 }
 
-.nav-links li {
+.navLinks li {
   cursor: pointer;
   font-size: 16px;
   transition: color 0.3s ease;
 }
 
-.nav-links li:hover {
-  color: #ffa500; /* Cor laranja no hover */
+.navLinks li:hover {
+  color: #ffa500;
 }
 
-.nav-links .active {
-  color: #ffa500; /* Cor laranja para o link ativo */
+.navLinks .active {
+  color: #ffa500;
   font-weight: bold;
 }
 
-/* Seção Direita – Saudação do Usuário */
-.header-right {
+.headerRight {
   display: flex;
   align-items: center;
 }
 
-.user-greeting {
+.userGreeting {
   font-size: 16px;
-  color: #333; /* Cor escura para o texto */
+  color: #333;
 }
 
-.user-greeting strong {
+.userGreeting strong {
   font-weight: bold;
 }
