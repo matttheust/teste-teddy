@@ -1,0 +1,29 @@
+.cliente-card {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 10px;
+    width: 200px;
+  }
+  
+  .cliente-card h3 {
+    margin: 0 0 10px;
+  }
+  
+  .cliente-card p {
+    margin: 5px 0;
+  }
+  
+  .card-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  
+  .card-actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+  }
