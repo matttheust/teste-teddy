@@ -8,7 +8,9 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center; /* Centraliza verticalmente */
+  align-items: center; /* Centraliza horizontalmente */
+  text-align: center; /* Centraliza o texto */
 }
 
 .cliente-card h3 {
@@ -27,6 +29,8 @@
   display: flex;
   justify-content: space-between; /* Distribui os ícones */
   align-items: center;
+  width: 100%; /* Ocupa toda a largura do card */
+  margin-top: 10px; /* Espaçamento acima dos ícones */
 }
 
 .icon-button {
