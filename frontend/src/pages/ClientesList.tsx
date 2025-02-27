@@ -8,12 +8,14 @@ import ClienteCard from '../components/ClientCard/ClientCard';
 import Pagination from '../components/Pagination/Pagination';
 import Button from '../components/Button/Button';
 import { useClienteContext } from '../components/Context/ClienteContext';
-import styles from './ClientesList.module.css'; // Usando módulo CSS
+import CreateClienteModal from '../components/CreateClienteModal/CreateClienteModal'; // Importe o modal
+import styles from './ClientesList.module.css';
 
 const ClientesList: React.FC = () => {
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [clientesPorPagina, setClientesPorPagina] = useState(16);
   const [paginaAtual, setPaginaAtual] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar o modal
   const { clientesSelecionados, setClientesSelecionados } = useClienteContext();
 
   useEffect(() => {
@@ -28,8 +30,8 @@ const ClientesList: React.FC = () => {
     fetchClientes();
   }, []);
 
-  const handleDelete = (id: number) => {
-    console.log(`Delete cliente with id: ${id}`);
+  const handleClienteCreated = (novoCliente: Cliente) => {
+    setClientes((prevClientes) => [...prevClientes, novoCliente]); // Atualiza a lista de clientes
   };
 
   const handleSelectCliente = (cliente: Cliente) => {
@@ -42,18 +44,6 @@ const ClientesList: React.FC = () => {
       }
     });
   };
-
-  const handleAdd = (id: number) => {
-    console.log(`Add cliente with id: ${id}`);
-  };
-
-  const handleEdit = (id: number) => {
-    console.log(`Edit cliente with id: ${id}`);
-  };
-
-  const indexOfLastCliente = paginaAtual * clientesPorPagina;
-  const indexOfFirstCliente = indexOfLastCliente - clientesPorPagina;
-  const currentClientes = clientes.slice(indexOfFirstCliente, indexOfLastCliente);
 
   return (
     <div className={styles.clientesContainer}>
@@ -69,27 +59,36 @@ const ClientesList: React.FC = () => {
           }}
         />
         <div className={styles.clientesGrid}>
-          {currentClientes.map((cliente) => (
-            <ClienteCard
-              key={cliente.id}
-              nome={cliente.nome}
-              salario={cliente.salario}
-              valorEmpresa={cliente.valorEmpresa}
-              onAdd={() => cliente.id !== undefined && handleAdd(cliente.id)}
-              onEdit={() => cliente.id !== undefined && handleEdit(cliente.id)}
-              onDelete={() => cliente.id !== undefined && handleDelete(cliente.id)}
-              onSelect={() => handleSelectCliente(cliente)}
-              isSelected={clientesSelecionados.some((c) => c.id === cliente.id)}
-            />
-          ))}
+          {clientes
+            .slice((paginaAtual - 1) * clientesPorPagina, paginaAtual * clientesPorPagina)
+            .map((cliente) => (
+              <ClienteCard
+                key={cliente.id}
+                nome={cliente.nome}
+                salario={cliente.salario}
+                valorEmpresa={cliente.valorEmpresa}
+                onAdd={() => {}}
+                onEdit={() => {}}
+                onDelete={() => {}}
+                onSelect={() => handleSelectCliente(cliente)}
+                isSelected={clientesSelecionados.some((c) => c.id === cliente.id)}
+              />
+            ))}
         </div>
         <Pagination
           currentPage={paginaAtual}
           totalPages={Math.ceil(clientes.length / clientesPorPagina)}
           onPageChange={(page) => setPaginaAtual(page)}
         />
-        <Button onClick={() => console.log('Criar Cliente')}>Criar Cliente</Button>
+        <Button onClick={() => setIsModalOpen(true)}>Criar Cliente</Button>
       </div>
+
+      {/* Modal de criação de cliente */}
+      <CreateClienteModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onClienteCreated={handleClienteCreated}
+      />
     </div>
   );
 };
