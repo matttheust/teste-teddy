@@ -1,19 +1,36 @@
+// App.tsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { UserProvider } from './components/Context/UserContext';
+import { Outlet } from 'react-router-dom'; 
 import { ClienteProvider } from './components/Context/ClienteContext';
-import ClientesList from './pages/ClientesList';
-import ClientesSelecionadosList from './pages/ClientesSelecionadosList';
+import Login from './components/Login/Login';
+import ClientesPage from './pages/ClientesList';
+import ClientesSelecionadosPage from './pages/ClientesSelecionadosList'; // Crie este componente
+import Header from './components/Header/Header';
 
-const App: React.FC = () => {
+const App = () => {
   return (
-    <ClienteProvider>
-      <Router>
-        <Routes>
-          <Route path="/clientes" element={<ClientesList />} />
-          <Route path="/clientes-selecionados" element={<ClientesSelecionadosList />} />
-        </Routes>
-      </Router>
-    </ClienteProvider>
+    <Router>
+      <UserProvider>
+        <ClienteProvider>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            
+            {/* Rotas autenticadas (com Header) */}
+            <Route element={
+              <>
+                <Header />
+                <Outlet /> {/* Componente do React Router para renderizar sub-rotas */}
+              </>
+            }>
+              <Route path="/clientes" element={<ClientesPage />} />
+              <Route path="/clientes-selecionados" element={<ClientesSelecionadosPage />} />
+            </Route>
+          </Routes>
+        </ClienteProvider>
+      </UserProvider>
+    </Router>
   );
 };
 
