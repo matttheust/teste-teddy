@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getClientes } from '../services/clienteService';
+import { getClientes, updateCliente } from '../services/clienteService'; // Adiciona o updateCliente
 import { Cliente } from '../services/clienteService';
 import Header from '../components/Header/Header';
 import SectionHeader from '../components/SectionHeader/SectionHeader';
@@ -8,30 +8,35 @@ import ClienteCard from '../components/ClientCard/ClientCard';
 import Pagination from '../components/Pagination/Pagination';
 import Button from '../components/Button/Button';
 import { useClienteContext } from '../components/Context/ClienteContext';
-import CreateClienteModal from '../components/CreateClienteModal/CreateClienteModal'; // Importe o modal
+import CreateClienteModal from '../components/CreateClienteModal/CreateClienteModal';
+import EditClienteModal from '../components/EditClienteModal/EditClienteModal'; // Modal para editar
 import styles from './ClientesList.module.css';
 
 const ClientesList: React.FC = () => {
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [clientesPorPagina, setClientesPorPagina] = useState(16);
   const [paginaAtual, setPaginaAtual] = useState(1);
-  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar o modal
+  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false); // Estado para controlar o modal de edição
+  const [clienteEditando, setClienteEditando] = useState<Cliente | null>(null); // Cliente sendo editado
   const { clientesSelecionados, setClientesSelecionados } = useClienteContext();
 
+  // Função para buscar os clientes
+  const fetchClientes = async () => {
+    try {
+      const data = await getClientes();
+      setClientes(data);
+    } catch (error) {
+      console.error('Erro ao carregar clientes:', error);
+    }
+  };
+
   useEffect(() => {
-    const fetchClientes = async () => {
-      try {
-        const data = await getClientes();
-        setClientes(data);
-      } catch (error) {
-        console.error('Erro ao carregar clientes:', error);
-      }
-    };
-    fetchClientes();
+    fetchClientes(); // Carrega os clientes ao montar o componente
   }, []);
 
   const handleClienteCreated = (novoCliente: Cliente) => {
-    setClientes((prevClientes) => [...prevClientes, novoCliente]); // Atualiza a lista de clientes
+    setClientes((prevClientes) => [...prevClientes, novoCliente]); 
   };
 
   const handleSelectCliente = (cliente: Cliente) => {
@@ -43,6 +48,30 @@ const ClientesList: React.FC = () => {
         return [...prevSelecionados, cliente];
       }
     });
+  };
+
+  const handleEditCliente = (cliente: Cliente) => {
+    setClienteEditando(cliente);
+    setIsEditModalOpen(true); // Abre o modal de edição
+  };
+
+  const handleClienteEdit = async (clienteEditado: Cliente) => {
+    try {
+      if (clienteEditado.id !== undefined) {
+        // Atualiza o cliente no backend
+        await updateCliente(clienteEditado.id, clienteEditado);
+        
+        // Após editar, faça um reload na lista de clientes
+        fetchClientes();
+
+        // Fechar o modal após a edição
+        setIsEditModalOpen(false);
+      } else {
+        console.error('Erro: ID do cliente é indefinido');
+      }
+    } catch (error) {
+      console.error('Erro ao editar cliente:', error);
+    }
   };
 
   return (
@@ -68,7 +97,7 @@ const ClientesList: React.FC = () => {
                 salario={cliente.salario}
                 valorEmpresa={cliente.valorEmpresa}
                 onAdd={() => {}}
-                onEdit={() => {}}
+                onEdit={() => handleEditCliente(cliente)} // Passa o cliente para editar
                 onDelete={() => {}}
                 onSelect={() => handleSelectCliente(cliente)}
                 isSelected={clientesSelecionados.some((c) => c.id === cliente.id)}
@@ -89,6 +118,16 @@ const ClientesList: React.FC = () => {
         onClose={() => setIsModalOpen(false)}
         onClienteCreated={handleClienteCreated}
       />
+
+      {/* Modal de edição de cliente */}
+      {clienteEditando && (
+        <EditClienteModal
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)} // Mantém a funcionalidade de fechar, mas sem um botão de cancelar
+          cliente={clienteEditando}
+          onClienteEdit={handleClienteEdit} // Passa a função para editar
+        />
+      )}
     </div>
   );
 };
